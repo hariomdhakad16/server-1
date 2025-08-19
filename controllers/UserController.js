@@ -1,32 +1,31 @@
-const UserModel = require("../models/user");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-
+const UserModel = require("../models/user")
+const bcrypt = require('bcrypt');
+const jwt = require("jsonwebtoken")
 class UserController {
   static register = async (req, res) => {
     try {
-      // console.log(req.body)
-      const { name, email, password } = req.body;
-      const existingUser = await UserModel.findOne({ email });
-      if (existingUser) {
-        return res.status(400).json({ message: "Email already exists" });
+      const { name, email, password } = req.body
+      const emailcheck = await UserModel.findOne({ email })
+      if (emailcheck) {
+        return res.status(400).json({ message: "email already registered" });
       }
-
-      const hashedPassword = await bcrypt.hash(password, 10);
+      //hash password
+      const hashPassword = await bcrypt.hash(password, 10)
+      console.log(password)
       const data = await UserModel.create({
         name,
         email,
-        password: hashedPassword,
-      });
+        password: hashPassword
+      })
       res.json({
         data,
-        msg: "user insert success",
-      });
+        msg: "user register success"
+      })
+      // console.log(req.body)
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
-  };
-
+  }
   static login = async (req, res) => {
     try {
       // console.log(req.body)
@@ -72,24 +71,19 @@ class UserController {
     }
   };
 
-  static profile = async (req, res) => {
+  static logout = async (req, res) => {
     try {
-      console.log("hello profile");
+      res.clearCookie('token')
+      res.status(200).json({ message: "logout succesfully" })
     } catch (error) {
-      console.log("error");
+
     }
-  };
+  }
 
-  //Logout
-static logout = async (req, res) => {
-  res.clearCookie("token", {
-    httpOnly: true,
-    secure: true,
-    sameSite: "None",
-  });
-  return res.status(200).json({ message: "Logged out successfully" });
-}
+  // static changepassword = async(req,res)=>{
+
+  // }
 
 }
 
-module.exports = UserController;
+module.exports = UserController

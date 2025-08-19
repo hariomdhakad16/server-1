@@ -1,40 +1,38 @@
-const express = require('express');
+const express = require('express')
+// console.log(express)
+const app=express()
+const port =3000
+const web = require('./routes/web')
+const connectDB=require('./db/connectDB')
+const fileUpload = require('express-fileupload')
+const cookieParser = require('cookie-parser')
+const cors = require('cors')
+
 require("dotenv").config();
 
-const app = express();
-const web = require('./routes/web');
-const connectDB = require('./db/connectDB');
-const fileUpload = require('express-fileupload');
-const cookieParser = require('cookie-parser');
-const cors = require("cors");
-
-// ✅ Fix: remove trailing slash + allow methods + headers
 app.use(
-  cors({
-    origin: "https://exactcourse.netlify.app", // no trailing slash
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true, // allow cookies
-  })
-);
+    cors({
+        origin:"https://exactcourse.netlify.app",
+        credentials:true,
+    })
+)
 
-// token get cookie
-app.use(cookieParser());
+//token get cookie
+app.use(cookieParser())
 
-// connect to DB
-connectDB();
-app.use(express.json());
+//image upload
+app.use(fileUpload({
+    useTempFiles :true,
+}));
 
-// image upload
-app.use(
-  fileUpload({
-    useTempFiles: true,
-  })
-);
 
-// routes
-app.use('/api', web);
+//database connection
+connectDB()
+app.use(express.json())
 
-// server start
-const port = process.env.PORT || 3000;
-app.listen(port, () => console.log(`✅ Server running on http://localhost:${port}`));
+
+app.use('/api',web)
+
+
+app.listen(port,console.log("server start at 3000"))
+
