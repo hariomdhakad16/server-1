@@ -1,5 +1,4 @@
 const express = require('express')
-require("dotenv").config();
 // console.log(express)
 const app=express()
 const web = require('./routes/web')
@@ -30,6 +29,11 @@ app.use(express.json())
 app.use(fileUpload({
     useTempFiles :true,
 }));
+
+
+//database connection
+connectDB()
+app.use(express.json())
 
 
 app.use('/api',web)
