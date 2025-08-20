@@ -28,10 +28,10 @@ router.delete("/delete/:id",TeacherController.delete)
 
 
 router.get("/course",CourseController.display)
-router.post('/createCourse',CourseController.create)
+router.post('/course/create',CourseController.create)
 router.get("/course/view/:id",CourseController.view)
-router.put("/update/:id",CourseController.update)
-router.delete("/delete/:id",CourseController.delete)
+router.put("/course/update/:id",CourseController.update)
+router.delete("/course/delete/:id",CourseController.delete)
 
 
 

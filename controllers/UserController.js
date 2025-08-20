@@ -71,14 +71,22 @@ class UserController {
     }
   };
 
-  static logout = async (req, res) => {
+  static profile = async (req, res) => {
     try {
-      res.clearCookie('token')
-      res.status(200).json({ message: "logout succesfully" })
+      console.log("hello profile");
     } catch (error) {
-
+      console.log("error");
     }
-  }
+  };
+
+  static logout = async (req, res) => {
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "None",
+  });
+  return res.status(200).json({ message: "Logged out successfully" });
+}
 
   // static changepassword = async(req,res)=>{
 

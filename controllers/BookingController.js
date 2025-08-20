@@ -35,8 +35,8 @@ class BookingController {
     try {
       const userId = req.user._id;
       const bookings = await Booking.find({ user: userId })
-        .populate("course", "title price")
-        .sort({ createdAt: -1 });
+      .populate("course", "title price")
+      .sort({ createdAt: -1 });
 
       return res.status(200).json({ bookings });
     } catch (error) {
