@@ -37,7 +37,7 @@ router.delete("/course/delete/:id",CourseController.delete)
 
 router.post("/register",UserController.register)
 router.post("/login",UserController.login)
-//router.get("/profile",checkAuth,UserController.profile)
+router.get("/profile",checkAuth,UserController.profile)
 router.get("/logout",UserController.logout)
 
 //booking
